@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using StudentLife.Class;
 
 namespace StudentLife
 {
@@ -11,7 +12,8 @@ namespace StudentLife
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        Texture2D heroTexture;
+        Hero hoofdpersonage;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -41,6 +43,11 @@ namespace StudentLife
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            heroTexture = Content.Load<Texture2D>("hoofdpersonage");
+            hoofdpersonage = new Hero(heroTexture, new Vector2(200, 200));
+            hoofdpersonage.Bediening = new Bediening();
+            
         }
 
         /// <summary>
@@ -63,7 +70,7 @@ namespace StudentLife
                 Exit();
 
             // TODO: Add your update logic here
-
+            hoofdpersonage.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -76,7 +83,9 @@ namespace StudentLife
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            hoofdpersonage.Draw(spriteBatch);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
