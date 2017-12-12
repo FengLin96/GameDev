@@ -17,6 +17,7 @@ namespace StudentLife.Class
         private Animation animation;
         public Vector2 VelocityX = new Vector2(2,0);
         public Bediening Bediening { get; set; }
+        private SpriteEffects heroFlip = SpriteEffects.FlipHorizontally;
 
         public Hero(Texture2D _texture, Vector2 _positie)
         {
@@ -43,16 +44,19 @@ namespace StudentLife.Class
             if (Bediening.Left)
             {
                 Positie -= VelocityX;
+                heroFlip = SpriteEffects.FlipHorizontally;
             }
             if (Bediening.Right)
             {
                 Positie += VelocityX;
+                heroFlip = SpriteEffects.None;
             }
         }
 
         public void Draw(SpriteBatch spritebatch)
         {
             spritebatch.Draw(Texture, Positie, animation.CurrentFrame.SourceRectangle, Color.AliceBlue);
+            spritebatch.Draw(texture: Texture, destinationRectangle: Positie, sourceRectangle: animation.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: null, effects:heroFlip, layerDepth: 0f);
         }
 
     }
