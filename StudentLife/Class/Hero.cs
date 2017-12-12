@@ -55,7 +55,6 @@ namespace StudentLife.Class
 
         public void Draw(SpriteBatch spritebatch)
         {
-           // spritebatch.Draw(Texture, Positie, animation.CurrentFrame.SourceRectangle, Color.AliceBlue);
             spritebatch.Draw(texture: Texture, destinationRectangle: new Rectangle((int)Positie.X,(int) Positie.Y, 43,58), sourceRectangle: animation.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: new Vector2(0,0) , effects:heroFlip, layerDepth: 0f);
         }
 
