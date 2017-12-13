@@ -44,12 +44,15 @@ namespace StudentLife.Class
         {
             double temp = CurrentFrame.SourceRectangle.Width * ((double)gameTime.ElapsedGameTime.Milliseconds / 1000);
             x += temp;
+
+            //TODO: te verwijderen
             System.Console.WriteLine("SourceRectanle.with = " + CurrentFrame.SourceRectangle.Width);
             System.Console.WriteLine("gameTime in sec " + (double)gameTime.ElapsedGameTime.Milliseconds / 1000);
             System.Console.WriteLine("temp is " + temp);
             System.Console.WriteLine("x = " + x);
             System.Console.WriteLine("AantaleBewegingenPerSec " + AantalBewegingenPerSeconde);
             System.Console.WriteLine("SourceRectangle.Width / AantalBewegingenPerSeconde = " + CurrentFrame.SourceRectangle.Width / AantalBewegingenPerSeconde);
+
             if (x >= CurrentFrame.SourceRectangle.Width / AantalBewegingenPerSeconde) // aantalbewegingPerSec = hoeveel keer sneller wil je gaan?
             {
                 x = 0;
