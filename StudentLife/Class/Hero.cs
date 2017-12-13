@@ -14,7 +14,7 @@ namespace StudentLife.Class
         public Vector2 Positie { get; set; }
         private Texture2D Texture { get; set;}
         private Rectangle showRect;
-        private Animation stappen,lopen,stand,run,jump,damaged;
+        private Animation animation,stappen,stand,run,jump,damaged;
         public Vector2 VelocityX = new Vector2(2,0);
         public Bediening Bediening { get; set; }
         private SpriteEffects heroFlip = SpriteEffects.FlipHorizontally;
@@ -25,16 +25,21 @@ namespace StudentLife.Class
             Positie = _positie;
             showRect = new Rectangle(0, 0, 43, 58);
 
-            #region stappen frame definition
+            #region frames stappen
             stappen = new Animation();
-            stappen.AddFrame(new Rectangle(234, 16, 43, 58));
-            stappen.AddFrame(new Rectangle(277, 16, 43, 58));
-            stappen.AddFrame(new Rectangle(320, 16, 43, 58));
-            stappen.AddFrame(new Rectangle(363, 16, 43, 58));
-            stappen.AddFrame(new Rectangle(406, 16, 43, 58));
-            stappen.AddFrame(new Rectangle(440, 16, 43, 58));
+            stappen.AddFrame(new Rectangle(242, 20, 33, 51));
+            stappen.AddFrame(new Rectangle(287, 21, 25, 50));
+            stappen.AddFrame(new Rectangle(327, 20, 26, 51));
+            stappen.AddFrame(new Rectangle(368, 20, 25, 51));
+            stappen.AddFrame(new Rectangle(412, 19, 22, 52));
+            stappen.AddFrame(new Rectangle(450, 18, 43, 53));
+            #endregion
 
-            
+            #region frames run
+            run = new Animation();
+           // run.AddFrame(new Rectangle )
+            #endregion
+
             stappen.AantalBewegingenPerSeconde = 8;
         }
         
@@ -59,7 +64,7 @@ namespace StudentLife.Class
             Bediening.Update();
             if(Bediening.Left || Bediening.Right)
             {
-                animation.Update(gametime);
+                stappen.Update(gametime);
             }
             if (Bediening.Left)
             {
@@ -74,8 +79,9 @@ namespace StudentLife.Class
 
         public void Draw(SpriteBatch spritebatch)
         {
-        Rectangle destinationRectangle = new Rectangle((int)Positie.X, (int)Positie.Y, animation.CurrentFrame.SourceRectangle.Width, animation.CurrentFrame.SourceRectangle.Height);
-        spritebatch.Draw(texture: Texture, destinationRectangle: destinationRectangle, sourceRectangle: animation.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: new Vector2(0,0) , effects:heroFlip, layerDepth: 0f);
+            
+        Rectangle destinationRectangle = new Rectangle((int)Positie.X, (int)Positie.Y, stappen.CurrentFrame.SourceRectangle.Width, stappen.CurrentFrame.SourceRectangle.Height);
+        spritebatch.Draw(texture: Texture, destinationRectangle: destinationRectangle, sourceRectangle: stappen.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: new Vector2(0,0) , effects:heroFlip, layerDepth: 0f);
         }
 
     }
