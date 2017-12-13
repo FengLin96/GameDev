@@ -14,7 +14,7 @@ namespace StudentLife.Class
         public Vector2 Positie { get; set; }
         private Texture2D Texture { get; set;}
         private Rectangle showRect;
-        private Animation stappen,lopen,stand,run,jump,damaged;
+        private Animation stappen,lopen,stand,run,jump,damaged,animation;
         public Vector2 VelocityX = new Vector2(2,0);
         public Bediening Bediening { get; set; }
         private SpriteEffects heroFlip = SpriteEffects.FlipHorizontally;
@@ -27,13 +27,15 @@ namespace StudentLife.Class
 
             #region stappen frame definition
             stappen = new Animation();
-            stappen.AddFrame(new Rectangle(234, 16, 43, 58));
-            stappen.AddFrame(new Rectangle(277, 16, 43, 58));
-            stappen.AddFrame(new Rectangle(320, 16, 43, 58));
-            stappen.AddFrame(new Rectangle(363, 16, 43, 58));
-            stappen.AddFrame(new Rectangle(406, 16, 43, 58));
-            stappen.AddFrame(new Rectangle(440, 16, 43, 58));
+            stappen.AddFrame(new Rectangle(242, 20, 33, 51));
+            stappen.AddFrame(new Rectangle(287, 21, 25, 50));
+            stappen.AddFrame(new Rectangle(327, 20, 26, 50));
+            stappen.AddFrame(new Rectangle(369, 20, 24, 51));
+            stappen.AddFrame(new Rectangle(413, 19, 21, 52));
+            stappen.AddFrame(new Rectangle(451, 18, 23, 53));
+            #endregion
 
+            animation = stappen;
             
             stappen.AantalBewegingenPerSeconde = 8;
         }
