@@ -52,7 +52,15 @@ namespace StudentLife.Class
 
             #endregion
 
-            animation = walk;
+            #region frames stand
+            stand = new Animation();
+            stand.AddFrame(new Rectangle(17,20,36,51));
+            stand.AddFrame(new Rectangle(65,21,36,50));
+            stand.AddFrame(new Rectangle(114,23,35,48));
+            stand.AddFrame(new Rectangle(164,26,36,46));
+            stand.AantalBewegingenPerSeconde = 2;
+            #endregion
+            animation = stand ;
 
 
         }
@@ -77,11 +85,14 @@ namespace StudentLife.Class
         public void Update(GameTime gametime)
         {
             Bediening.Update();
-            if(Bediening.Left || Bediening.Right)
+            animation.Update(gametime);
+            
+            if (Bediening.isKeyNotDown)
             {
-                //animation.Update(gametime);
-                animation.Update(gametime);
+                animation = stand;
             }
+            
+
             if (Bediening.Left)
             {
                 Run(-1);
@@ -102,7 +113,7 @@ namespace StudentLife.Class
                 Run(1, 4f);
                 animation = run;
             }
-
+            
         }
 
         public void Draw(SpriteBatch spritebatch)

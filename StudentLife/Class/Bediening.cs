@@ -9,15 +9,27 @@ namespace StudentLife.Class
 {
     public class Bediening
     {
+       
         public bool Left { get; set; }
         public bool Right { get; set; }
         public bool Down { get; set; }
         public bool Jump { get; set; }
         
         public bool run { get; set; }
+        public bool isKeyNotDown { get; set; }
         public void Update()
         {
             KeyboardState stateKey = Keyboard.GetState();
+
+            Array x = stateKey.GetPressedKeys();
+            if (x.Length == 0)
+            {
+                isKeyNotDown = true;
+            }
+            else
+            {
+                isKeyNotDown = false;
+            }
 
             if (stateKey.IsKeyDown(Keys.A))
             {
