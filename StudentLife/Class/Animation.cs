@@ -20,7 +20,7 @@ namespace StudentLife.Class
         public Animation()
         {
             frames = new List<AnimationFrame>();
-            AantalBewegingenPerSeconde = 8; 
+            AantalBewegingenPerSeconde = 10; 
         }
 
         // Voeg nieuwe rectangle toe naar frames

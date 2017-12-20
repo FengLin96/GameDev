@@ -13,6 +13,8 @@ namespace StudentLife.Class
         public bool Right { get; set; }
         public bool Down { get; set; }
         public bool Jump { get; set; }
+        
+        public bool run { get; set; }
         public void Update()
         {
             KeyboardState stateKey = Keyboard.GetState();
@@ -53,6 +55,14 @@ namespace StudentLife.Class
                 Jump = false;
             }
 
+            if (stateKey.IsKeyDown(Keys.LeftShift))
+            {
+                run = true;
+            }
+            else
+            {
+                run = false;
+            }
 
         }
 

@@ -33,12 +33,11 @@ namespace StudentLife.Class
             walk.AddFrame(new Rectangle(369, 20, 24, 51));
             walk.AddFrame(new Rectangle(413, 19, 21, 52));
             walk.AddFrame(new Rectangle(451, 18, 23, 53));
-
+            
             #endregion
 
             #region frames run
             run = new Animation();
-
             run.AddFrame(new Rectangle(6, 105, 46, 47));
             run.AddFrame(new Rectangle(63, 106, 46, 46));
             run.AddFrame(new Rectangle(117,106,59,54));
@@ -53,13 +52,15 @@ namespace StudentLife.Class
 
             #endregion
 
+            animation = walk;
 
 
         }
 
 
-        private void Run(int richting)
+        private void Run(int richting, float velocity = 2f)
         {
+            VelocityX.X = velocity;
             if (richting<0)
             {
                 Positie -= VelocityX;
@@ -79,25 +80,37 @@ namespace StudentLife.Class
             if(Bediening.Left || Bediening.Right)
             {
                 //animation.Update(gametime);
-                run.Update(gametime);
+                animation.Update(gametime);
             }
             if (Bediening.Left)
             {
                 Run(-1);
+                animation = walk;
             }
             if (Bediening.Right)
             {
                 Run(1);
+                animation = walk;
             }
-   
+            if(Bediening.run && Bediening.Left)
+            {
+                Run(-1, 4f);
+                animation = run;
+            }
+            if (Bediening.run && Bediening.Right)
+            {
+                Run(1, 4f);
+                animation = run;
+            }
+
         }
 
         public void Draw(SpriteBatch spritebatch)
         {
-       // Rectangle destinationRectangle = new Rectangle((int)Positie.X, (int)Positie.Y, animation.CurrentFrame.SourceRectangle.Width, animation.CurrentFrame.SourceRectangle.Height);
-            Rectangle destinationRectangle2 = new Rectangle((int)Positie.X, (int)Positie.Y, run.CurrentFrame.SourceRectangle.Width, run.CurrentFrame.SourceRectangle.Height);
+        Rectangle destinationRectangle = new Rectangle((int)Positie.X, (int)Positie.Y, animation.CurrentFrame.SourceRectangle.Width, animation.CurrentFrame.SourceRectangle.Height);
+            //Rectangle destinationRectangle2 = new Rectangle((int)Positie.X, (int)Positie.Y, run.CurrentFrame.SourceRectangle.Width, run.CurrentFrame.SourceRectangle.Height);
             
-            spritebatch.Draw(texture: Texture, destinationRectangle: destinationRectangle2, sourceRectangle: run.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: new Vector2(0,0) , effects:heroFlip, layerDepth: 0f);
+            spritebatch.Draw(texture: Texture, destinationRectangle: destinationRectangle, sourceRectangle: animation.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: new Vector2(0,0) , effects:heroFlip, layerDepth: 0f);
         
         }
 
