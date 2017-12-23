@@ -15,6 +15,7 @@ namespace StudentLife.Class
         private Texture2D Texture { get; set;}
         private Animation walk,stand,run,jump,damaged,animation;
         public Vector2 VelocityX = new Vector2(2,0);
+        public Vector2 VelocityY = new Vector2(0, -10);
         public Bediening Bediening { get; set; }
         private SpriteEffects heroFlip = SpriteEffects.None;
 
@@ -61,6 +62,19 @@ namespace StudentLife.Class
             #endregion
             animation = stand ;
 
+            #region frames jump
+            jump = new Animation();
+            jump.AddFrame(new Rectangle(8, 309, 44, 50));
+            jump.AddFrame(new Rectangle(64, 311, 44, 50));
+            jump.AddFrame(new Rectangle(120, 307, 31, 54));
+            jump.AddFrame(new Rectangle(174, 307, 85, 54));
+            jump.AddFrame(new Rectangle(228, 321, 54, 40));
+            jump.AddFrame(new Rectangle(295, 324, 62, 37));
+            jump.AddFrame(new Rectangle(368, 327, 62, 35));
+            jump.AddFrame(new Rectangle(441, 309, 62, 54));
+            jump.AddFrame(new Rectangle(514, 309, 75, 54));
+            jump.AddFrame(new Rectangle(597, 310, 72, 50));
+            #endregion
 
         }
 
@@ -91,7 +105,6 @@ namespace StudentLife.Class
                 animation = stand;
             }
             
-
             if (Bediening.Left)
             {
                 BewegenInRichting(-1);
@@ -102,15 +115,20 @@ namespace StudentLife.Class
                 BewegenInRichting(1);
                 animation = walk;
             }
-            if(Bediening.run && Bediening.Left)
+            if(Bediening.Run && Bediening.Left)
             {
                 BewegenInRichting(-1, 4f);
                 animation = run;
             }
-            if (Bediening.run && Bediening.Right)
+            if (Bediening.Run && Bediening.Right)
             {
                 BewegenInRichting(1, 4f);
                 animation = run;
+            }
+            if (Bediening.Jump)
+            {
+                animation = jump;
+                Positie += VelocityY;
             }
             
         }

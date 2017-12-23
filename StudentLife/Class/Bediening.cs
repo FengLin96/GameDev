@@ -15,7 +15,7 @@ namespace StudentLife.Class
         public bool Down { get; set; }
         public bool Jump { get; set; }
         
-        public bool run { get; set; }
+        public bool Run { get; set; }
         public bool isKeyNotDown { get; set; }
         public void Update()
         {
@@ -69,11 +69,11 @@ namespace StudentLife.Class
 
             if (stateKey.IsKeyDown(Keys.LeftShift)&&(Left||Right))
             {
-                run = true;
+                Run = true;
             }
             else
             {
-                run = false;
+                Run = false;
             }
 
         }
