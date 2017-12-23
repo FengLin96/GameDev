@@ -13,17 +13,15 @@ namespace StudentLife.Class
     {
         public Vector2 Positie { get; set; }
         private Texture2D Texture { get; set;}
-        private Rectangle showRect;
         private Animation walk,stand,run,jump,damaged,animation;
         public Vector2 VelocityX = new Vector2(2,0);
         public Bediening Bediening { get; set; }
-        private SpriteEffects heroFlip = SpriteEffects.FlipHorizontally;
+        private SpriteEffects heroFlip = SpriteEffects.None;
 
         public Hero(Texture2D _texture, Vector2 _positie)
         {
             Texture = _texture;
             Positie = _positie;
-            showRect = new Rectangle(0, 0, 43, 58);
 
             #region frames stappen
             walk = new Animation();
@@ -33,7 +31,7 @@ namespace StudentLife.Class
             walk.AddFrame(new Rectangle(369, 20, 24, 51));
             walk.AddFrame(new Rectangle(413, 19, 21, 52));
             walk.AddFrame(new Rectangle(451, 18, 23, 53));
-            
+
             #endregion
 
             #region frames run
@@ -44,11 +42,12 @@ namespace StudentLife.Class
             run.AddFrame(new Rectangle(187, 107, 65, 54));
             run.AddFrame(new Rectangle(264, 108, 68, 54));
             run.AddFrame(new Rectangle(341, 108, 74, 52));
-            run.AddFrame(new Rectangle(423, 109, 82, 52));
-            run.AddFrame(new Rectangle(513, 111, 85, 51));
-            run.AddFrame(new Rectangle(11, 172, 96, 55));
-            run.AddFrame(new Rectangle(122, 173, 103, 54));
-            run.AddFrame(new Rectangle(240, 174, 105, 53));
+           // run.AddFrame(new Rectangle(423, 109, 82, 52));
+          //run.AddFrame(new Rectangle(513, 111, 85, 51));
+            //run.AddFrame(new Rectangle(11, 172, 96, 55));
+            //run.AddFrame(new Rectangle(122, 173, 103, 54));
+            //run.AddFrame(new Rectangle(240, 174, 105, 53));
+
 
             #endregion
 
@@ -58,7 +57,7 @@ namespace StudentLife.Class
             stand.AddFrame(new Rectangle(65,21,36,50));
             stand.AddFrame(new Rectangle(114,23,35,48));
             stand.AddFrame(new Rectangle(164,26,36,46));
-            stand.AantalBewegingenPerSeconde = 2;
+            stand.AantalBewegingenPerSeconde = 1;
             #endregion
             animation = stand ;
 
@@ -66,7 +65,7 @@ namespace StudentLife.Class
         }
 
 
-        private void Run(int richting, float velocity = 2f)
+        private void BewegenInRichting(int richting, float velocity = 2f)
         {
             VelocityX.X = velocity;
             if (richting<0)
@@ -95,22 +94,22 @@ namespace StudentLife.Class
 
             if (Bediening.Left)
             {
-                Run(-1);
+                BewegenInRichting(-1);
                 animation = walk;
             }
             if (Bediening.Right)
             {
-                Run(1);
+                BewegenInRichting(1);
                 animation = walk;
             }
             if(Bediening.run && Bediening.Left)
             {
-                Run(-1, 4f);
+                BewegenInRichting(-1, 4f);
                 animation = run;
             }
             if (Bediening.run && Bediening.Right)
             {
-                Run(1, 4f);
+                BewegenInRichting(1, 4f);
                 animation = run;
             }
             
@@ -118,6 +117,7 @@ namespace StudentLife.Class
 
         public void Draw(SpriteBatch spritebatch)
         {
+            Console.WriteLine("Position X = " + Positie.X + " Position Y = " + Positie.Y);
         Rectangle destinationRectangle = new Rectangle((int)Positie.X, (int)Positie.Y, animation.CurrentFrame.SourceRectangle.Width, animation.CurrentFrame.SourceRectangle.Height);
             
             spritebatch.Draw(texture: Texture, destinationRectangle: destinationRectangle, sourceRectangle: animation.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: new Vector2(0,0) , effects:heroFlip, layerDepth: 0f);

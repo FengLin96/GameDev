@@ -42,16 +42,16 @@ namespace StudentLife.Class
 
         public void Update(GameTime gameTime)
         {
-            double temp = CurrentFrame.SourceRectangle.Width * ((double)gameTime.ElapsedGameTime.Milliseconds / 1000);
+            double temp = CurrentFrame.SourceRectangle.Width * ((double)gameTime.ElapsedGameTime.Milliseconds / 1000); // ik wil per sec zoveeel pixel(currentFrame.SourceRectangle.width) naar rechts schuiven
             x += temp;
 
-            //TODO: te verwijderen
-            System.Console.WriteLine("SourceRectanle.with = " + CurrentFrame.SourceRectangle.Width);
-            System.Console.WriteLine("gameTime in sec " + (double)gameTime.ElapsedGameTime.Milliseconds / 1000);
-            System.Console.WriteLine("temp is " + temp);
-            System.Console.WriteLine("x = " + x);
-            System.Console.WriteLine("AantaleBewegingenPerSec " + AantalBewegingenPerSeconde);
-            System.Console.WriteLine("SourceRectangle.Width / AantalBewegingenPerSeconde = " + CurrentFrame.SourceRectangle.Width / AantalBewegingenPerSeconde);
+            ////TODO: te verwijderen
+            //System.Console.WriteLine("SourceRectanle.with = " + CurrentFrame.SourceRectangle.Width);
+            //System.Console.WriteLine("gameTime in sec " + (double)gameTime.ElapsedGameTime.Milliseconds / 1000);
+            //System.Console.WriteLine("temp is " + temp);
+            //System.Console.WriteLine("x = " + x);
+            //System.Console.WriteLine("AantaleBewegingenPerSec " + AantalBewegingenPerSeconde);
+            //System.Console.WriteLine("SourceRectangle.Width / AantalBewegingenPerSeconde = " + CurrentFrame.SourceRectangle.Width / AantalBewegingenPerSeconde);
 
             if (x >= CurrentFrame.SourceRectangle.Width / AantalBewegingenPerSeconde) // aantalbewegingPerSec = hoeveel keer sneller wil je gaan?
             {

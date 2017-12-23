@@ -1,0 +1,3 @@
+bug to fix:
+
+lag bij run naar rechts.
