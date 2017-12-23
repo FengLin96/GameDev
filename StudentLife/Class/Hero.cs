@@ -40,10 +40,10 @@ namespace StudentLife.Class
             run = new Animation();
             run.AddFrame(new Rectangle(6, 105, 46, 47));
             run.AddFrame(new Rectangle(63, 106, 46, 46));
-            run.AddFrame(new Rectangle(117,106,59,54));
-            run.AddFrame(new Rectangle(187,107,65,54));
-            run.AddFrame(new Rectangle(264,108,68,54));
-            run.AddFrame(new Rectangle(341,108,74,52));
+            run.AddFrame(new Rectangle(117, 106, 59, 54));
+            run.AddFrame(new Rectangle(187, 107, 65, 54));
+            run.AddFrame(new Rectangle(264, 108, 68, 54));
+            run.AddFrame(new Rectangle(341, 108, 74, 52));
             run.AddFrame(new Rectangle(423, 109, 82, 52));
             run.AddFrame(new Rectangle(513, 111, 85, 51));
             run.AddFrame(new Rectangle(11, 172, 96, 55));
@@ -119,7 +119,6 @@ namespace StudentLife.Class
         public void Draw(SpriteBatch spritebatch)
         {
         Rectangle destinationRectangle = new Rectangle((int)Positie.X, (int)Positie.Y, animation.CurrentFrame.SourceRectangle.Width, animation.CurrentFrame.SourceRectangle.Height);
-            //Rectangle destinationRectangle2 = new Rectangle((int)Positie.X, (int)Positie.Y, run.CurrentFrame.SourceRectangle.Width, run.CurrentFrame.SourceRectangle.Height);
             
             spritebatch.Draw(texture: Texture, destinationRectangle: destinationRectangle, sourceRectangle: animation.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: new Vector2(0,0) , effects:heroFlip, layerDepth: 0f);
         
