@@ -45,7 +45,7 @@ namespace StudentLife
             // TODO: use this.Content to load your game content here
 
             heroTexture = Content.Load<Texture2D>("hoofdpersonage");
-            hoofdpersonage = new Hero(heroTexture, new Vector2(200, 200));
+            hoofdpersonage = new Hero(heroTexture, new Vector2(100, 350));
             hoofdpersonage.Bediening = new Bediening();
             
         }

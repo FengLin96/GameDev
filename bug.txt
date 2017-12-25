@@ -1,3 +1,5 @@
+mogelijk bug dat later kan tegenkomen:
+als de persone van hoogpunt naar beneden sprint, zit vast in de lucht. Probleem ->functie: jump  if (currentY > beginY) 
 bug to fix:
 
-lag bij run naar rechts.
+

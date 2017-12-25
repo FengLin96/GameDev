@@ -74,6 +74,7 @@ namespace StudentLife.Class
             jump.AddFrame(new Rectangle(441, 309, 62, 54));
             jump.AddFrame(new Rectangle(514, 309, 75, 54));
             jump.AddFrame(new Rectangle(597, 310, 72, 50));
+            
             #endregion
 
         }
