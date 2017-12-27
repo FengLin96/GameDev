@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using StudentLife.Class;
+using System;
 
 namespace StudentLife
 {
@@ -31,6 +32,7 @@ namespace StudentLife
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            
         }
 
         /// <summary>

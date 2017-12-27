@@ -67,7 +67,7 @@ namespace StudentLife.Class
                 Jump = false;
             }
 
-            if (stateKey.IsKeyDown(Keys.LeftShift)&&(Left||Right))
+            if (stateKey.IsKeyDown(Keys.LeftShift))
             {
                 Run = true;
             }

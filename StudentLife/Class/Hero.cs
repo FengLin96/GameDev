@@ -15,10 +15,11 @@ namespace StudentLife.Class
         private Texture2D Texture { get; set;}
         private Animation walk,stand,run,jump,damaged,animation;
         public Vector2 VelocityX = new Vector2(2,0);
-        public Vector2 VelocityY = new Vector2(0, -10);
+        public Vector2 VelocityY = new Vector2(0, 90);
         public Bediening Bediening { get; set; }
         private SpriteEffects heroFlip = SpriteEffects.None;
 
+        private enum richting :int { naarLinks = -1, naarRechts = 1};
         public Hero(Texture2D _texture, Vector2 _positie)
         {
             Texture = _texture;
@@ -74,25 +75,8 @@ namespace StudentLife.Class
             jump.AddFrame(new Rectangle(441, 309, 62, 54));
             jump.AddFrame(new Rectangle(514, 309, 75, 54));
             jump.AddFrame(new Rectangle(597, 310, 72, 50));
-            
+
             #endregion
-
-        }
-
-
-        private void BewegenInRichting(int richting, float velocity = 2f)
-        {
-            VelocityX.X = velocity;
-            if (richting<0)
-            {
-                Positie -= VelocityX;
-                heroFlip = SpriteEffects.FlipHorizontally;
-            }
-            if (richting>0)
-            {
-                Positie += VelocityX;
-                heroFlip = SpriteEffects.None;
-            }
 
         }
             
@@ -108,40 +92,111 @@ namespace StudentLife.Class
             
             if (Bediening.Left)
             {
-                BewegenInRichting(-1);
-                animation = walk;
+                Walking((int)richting.naarLinks);
             }
             if (Bediening.Right)
             {
-                BewegenInRichting(1);
-                animation = walk;
+                Walking((int)richting.naarRechts);
             }
             if(Bediening.Run && Bediening.Left)
             {
-                BewegenInRichting(-1, 4f);
-                animation = run;
+                Run((int)richting.naarLinks,4f);
             }
             if (Bediening.Run && Bediening.Right)
             {
-                BewegenInRichting(1, 4f);
-                animation = run;
+                Run((int)richting.naarRechts, 4f);
             }
             if (Bediening.Jump)
             {
-                animation = jump;
-                Positie += VelocityY;
+                Jump();
             }
             
         }
+       
+        
 
+       
+        private void Walking( int richting)
+        {
+            animation = walk;
+            if (richting > 0)
+            {
+                this.Positie += VelocityX;
+                heroFlip = SpriteEffects.None;
+            }
+            else if (richting < 0)
+            {
+                this.Positie -= VelocityX;
+                heroFlip = SpriteEffects.FlipHorizontally;
+            }
+        }
+
+        private void Run(int richting, float runVelocity)
+        {
+            Vector2 velocity = new Vector2(runVelocity, 0);
+            animation = run;
+            if (richting > 0)
+            {
+                this.Positie += velocity;
+                heroFlip = SpriteEffects.None;
+            }
+            else if(richting < 0)
+            {
+                this.Positie -= velocity;
+                heroFlip = SpriteEffects.FlipHorizontally;
+            }
+        }
+
+        public void Jump()  //idee: http://www.xnadevelopment.com/tutorials/thewizardjumping/thewizardjumping.shtml
+        {
+            animation = jump;
+
+            float maxJumpHeight = 90;
+            bool isGround;
+            float beginY = this.Positie.Y;
+            float currentY = 0;
+            bool hasJumped = false;
+            float gravity = 9.81f;
+
+            //controleer of de jump al gereleased is sinds vorige jump
+            if (hasJumped == false && Bediening.Jump) // als de vorige Key.J state = false en currentJ = true dan mag springen
+            {
+                //Controleer of de personage al in de lucht is
+                if (!(beginY < currentY)) // Als begin positie groter is dan currentY mag de personage springen.
+                {
+                    // jump
+                    this.Positie -= VelocityY;
+                    hasJumped = true;
+                }
+            }
+
+            if (beginY - currentY > maxJumpHeight) // als de maxJumpHeight heeft bereikt dan val die naar beneden.
+            {
+                // going down
+                this.Positie += new Vector2(0, gravity);
+                
+            }
+
+            if (currentY > beginY)  // als currentY groter is dan beginY dan stop met vallen.
+            {
+                hasJumped = false;
+            }
+        }
+
+        public void Damage()
+        {
+            throw new NotImplementedException();
+        }
         public void Draw(SpriteBatch spritebatch)
         {
             Console.WriteLine("Position X = " + Positie.X + " Position Y = " + Positie.Y);
-        Rectangle destinationRectangle = new Rectangle((int)Positie.X, (int)Positie.Y, animation.CurrentFrame.SourceRectangle.Width, animation.CurrentFrame.SourceRectangle.Height);
-            
-            spritebatch.Draw(texture: Texture, destinationRectangle: destinationRectangle, sourceRectangle: animation.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: new Vector2(0,0) , effects:heroFlip, layerDepth: 0f);
-        
+            Rectangle destinationRectangle = new Rectangle((int)Positie.X, (int)Positie.Y, animation.CurrentFrame.SourceRectangle.Width, animation.CurrentFrame.SourceRectangle.Height);
+
+            spritebatch.Draw(texture: Texture, destinationRectangle: destinationRectangle, sourceRectangle: animation.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: new Vector2(0, 0), effects: heroFlip, layerDepth: 0f);
+
+
         }
 
+       
     }
 }
