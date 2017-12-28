@@ -48,7 +48,6 @@
     <Compile Include="Class\Animation.cs" />
     <Compile Include="Class\AnimationFrame.cs" />
     <Compile Include="Class\Bediening.cs" />
-    <Compile Include="Class\Beweging.cs" />
     <Compile Include="Class\Hero.cs" />
     <Compile Include="Class\IBeweging.cs" />
     <Compile Include="Game1.cs" />

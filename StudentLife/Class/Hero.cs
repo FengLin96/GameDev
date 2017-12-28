@@ -11,7 +11,16 @@ namespace StudentLife.Class
 {
     class Hero
     {
-        public Vector2 Positie { get; set; }
+        //private Vector2 positie;
+        //public Vector2 Positie { get; set; }
+        private Vector2 positie;
+
+        public Vector2 Positie
+        {
+            get { return positie; }
+            set { positie = value; }
+        }
+
         private Texture2D Texture { get; set;}
         private Animation walk,stand,run,jump,damaged,animation;
         public Vector2 VelocityX = new Vector2(2,0);
@@ -76,10 +85,17 @@ namespace StudentLife.Class
             jump.AddFrame(new Rectangle(514, 309, 75, 54));
             jump.AddFrame(new Rectangle(597, 310, 72, 50));
 
+            jump.AantalBewegingenPerSeconde = 1;
             #endregion
 
         }
-            
+        bool x = false;
+        bool hasJumped = false;
+        float gravity = 9.81f;
+        float velocity = 30f;
+        int jumpHeight = 90;
+        float beginPositie ;
+
         public void Update(GameTime gametime)
         {
             Bediening.Update();
@@ -106,16 +122,14 @@ namespace StudentLife.Class
             {
                 Run((int)richting.naarRechts, 4f);
             }
-            if (Bediening.Jump)
+
+            beginPositie = 350;
+            if (Bediening.Jump||x)
             {
                 Jump();
             }
             
         }
-       
-        
-
-       
         private void Walking( int richting)
         {
             animation = walk;
@@ -147,43 +161,52 @@ namespace StudentLife.Class
             }
         }
 
-        public void Jump()  //idee: http://www.xnadevelopment.com/tutorials/thewizardjumping/thewizardjumping.shtml
+        private void Jump()  //idee: http://www.xnadevelopment.com/tutorials/thewizardjumping/thewizardjumping.shtml
         {
             animation = jump;
+            
 
-            float maxJumpHeight = 90;
-            bool isGround;
-            float beginY = this.Positie.Y;
-            float currentY = 0;
-            bool hasJumped = false;
-            float gravity = 9.81f;
-
-            //controleer of de jump al gereleased is sinds vorige jump
-            if (hasJumped == false && Bediening.Jump) // als de vorige Key.J state = false en currentJ = true dan mag springen
+            //controleer of de jump actie al gedaan is sinds vorige jump
+            if (!hasJumped) 
             {
-                //Controleer of de personage al in de lucht is
-                if (!(beginY < currentY)) // Als begin positie groter is dan currentY mag de personage springen.
+                this.x = true;
+                float y = beginPositie - jumpHeight;
+                // jump
+                
+                if (this.positie.Y > y)
                 {
-                    // jump
-                    this.Positie -= VelocityY;
+                    this.positie.Y -= velocity;
+                    velocity -= 2;
+                }
+                else
+                {
                     hasJumped = true;
                 }
+                     
             }
 
-            if (beginY - currentY > maxJumpHeight) // als de maxJumpHeight heeft bereikt dan val die naar beneden.
+            // controleer of de personage de hoogste punt al heeft bereikt
+            float currentY = this.positie.Y;
+            if (hasJumped)
             {
-                // going down
-                this.Positie += new Vector2(0, gravity);
+                    // naar beneden vallen
+                    this.positie.Y += gravity;
+                    
+                    if (this.positie.Y > beginPositie)    
+                    {
+                        // als de personage de beginpositie heeft bereikt dan stop met vallen
+                        
+                           positie.Y = beginPositie;
+                           this.x = false;
+                           velocity = 30;
+                           hasJumped = false; 
+                    }
                 
             }
 
-            if (currentY > beginY)  // als currentY groter is dan beginY dan stop met vallen.
-            {
-                hasJumped = false;
-            }
         }
 
-        public void Damage()
+        private void Damage()
         {
             throw new NotImplementedException();
         }

@@ -46,6 +46,8 @@ namespace StudentLife.Class
             x += temp;
 
             ////TODO: te verwijderen
+            System.Console.WriteLine("gameTime = " + (gameTime.ElapsedGameTime.Milliseconds/1000));
+
             //System.Console.WriteLine("SourceRectanle.with = " + CurrentFrame.SourceRectangle.Width);
             //System.Console.WriteLine("gameTime in sec " + (double)gameTime.ElapsedGameTime.Milliseconds / 1000);
             //System.Console.WriteLine("temp is " + temp);
