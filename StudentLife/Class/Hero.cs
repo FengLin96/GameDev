@@ -21,13 +21,9 @@ namespace StudentLife.Class
 
         private Texture2D Texture { get; set;}
         private Animation walk,stand,run,jump,damaged,animation;
-        public Vector2 VelocityX = new Vector2(5,0);
-        public Vector2 VelocityY = new Vector2(0, 90);
         public Bediening Bediening { get; set; }
         private SpriteEffects heroFlip;
-
         private enum richting :int { naarLinks = -1, naarRechts = 1};
-
         private Movement beweging;
         public Hero(Texture2D _texture, Vector2 _positie)
         {
@@ -90,15 +86,7 @@ namespace StudentLife.Class
             #endregion
 
         }
-
-        bool x = false;
-        
         bool hasJumped = false;
-        float gravity = 9.81f;
-        float velocity = 30f;
-        int jumpHeight = 90;
-        float beginPositie ;
-        
         public void Update(GameTime gametime)
         {
             Bediening.Update();
@@ -111,127 +99,35 @@ namespace StudentLife.Class
             
             if (Bediening.Left)
             {
-                //Walking((int)richting.naarLinks);
                 animation = walk;
                 this.positie = beweging.Walking((int)richting.naarLinks);
             }
             if (Bediening.Right)
             {
-                // Walking((int)richting.naarRechts);
                 animation = walk;
                 this.positie = beweging.Walking((int)richting.naarRechts);
             }
             if (Bediening.Run && Bediening.Left)
             {
-                //Run((int)richting.naarLinks,4f);
                 animation = run;
                 this.positie = beweging.Run((int)richting.naarLinks, 6f);
             }
             if (Bediening.Run && Bediening.Right)
             {
-                //Run((int)richting.naarRechts, 4f);
                 animation = run;
                 this.positie = beweging.Run((int)richting.naarRechts, 6f);
             }
 
-            if (Bediening.Jump||x)
+            if (Bediening.Jump||hasJumped)
             {
                 animation = jump;
                 unsafe
                 {
-                   fixed( bool* y = &this.x)
+                   fixed( bool* y = &this.hasJumped)
                    this.positie = beweging.Jump(y, jump, jump);
                 }
-                
-                //Jump();
             }
             heroFlip = beweging.Heroflip;
-        }
-        private void Walking( int richting)
-        {
-            animation = walk;
-            if (richting > 0)
-            {
-                this.Positie += VelocityX;
-                heroFlip = SpriteEffects.None;
-            }
-            else if (richting < 0)
-            {
-                this.Positie -= VelocityX;
-                heroFlip = SpriteEffects.FlipHorizontally;
-            }
-        }
-
-        private void Run(int richting, float runVelocity)
-        {
-            Vector2 velocity = new Vector2(runVelocity, 0);
-            animation = run;
-            if (richting > 0)
-            {
-                this.Positie += velocity;
-                heroFlip = SpriteEffects.None;
-            }
-            else if(richting < 0)
-            {
-                this.Positie -= velocity;
-                heroFlip = SpriteEffects.FlipHorizontally;
-            }
-        }
-
-        private void Jump()  //idee: http://www.xnadevelopment.com/tutorials/thewizardjumping/thewizardjumping.shtml
-        {
-            animation = jump;
-            jump.AantalBewegingenPerSeconde = 20;
-
-            if (!x)
-            {
-                beginPositie = positie.Y;
-            }
-
-            //controleer of de jump actie al gedaan is sinds vorige jump
-            if (!hasJumped) 
-            {
-                this.x = true;
-                float y = beginPositie - jumpHeight;
-                // jump
-                
-                if (this.positie.Y > y)
-                {
-                    this.positie.Y -= velocity;
-                    velocity -= 2;
-                }
-                else
-                {
-                    hasJumped = true;
-                }
-                     
-            }
-
-            // controleer of de personage de hoogste punt al heeft bereikt
-            float currentY = this.positie.Y;
-            if (hasJumped)
-            {
-                    // naar beneden vallen
-                    this.positie.Y += gravity;
-                    
-                    if (this.positie.Y > beginPositie)    
-                    {
-                        // als de personage de beginpositie heeft bereikt dan stop met vallen
-                        
-                           positie.Y = beginPositie;
-                           this.x = false;
-                           velocity = 30;
-                           hasJumped = false;
-                    
-                    }
-                
-            }
-
-        }
-
-        private void Damage()
-        {
-            throw new NotImplementedException();
         }
         public void Draw(SpriteBatch spritebatch)
         {

@@ -78,7 +78,6 @@ namespace StudentLife
         }
 
         float defautVelocity = 0f; //backup van jumpVelocity, zorgt ervoor na elke jump terug op staandaard waard komen
-
         unsafe
         public Vector2 Jump(bool* jumpStatus, Animation jump, Animation land)
         {
