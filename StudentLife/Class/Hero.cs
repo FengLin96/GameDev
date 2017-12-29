@@ -10,9 +10,7 @@ using StudentLife.Class;
 namespace StudentLife.Class
 {
     class Hero
-    {
-        //private Vector2 positie;
-        //public Vector2 Positie { get; set; }
+    { 
         private Vector2 positie;
 
         public Vector2 Positie
@@ -23,17 +21,20 @@ namespace StudentLife.Class
 
         private Texture2D Texture { get; set;}
         private Animation walk,stand,run,jump,damaged,animation;
-        public Vector2 VelocityX = new Vector2(2,0);
+        public Vector2 VelocityX = new Vector2(5,0);
         public Vector2 VelocityY = new Vector2(0, 90);
         public Bediening Bediening { get; set; }
-        private SpriteEffects heroFlip = SpriteEffects.None;
+        private SpriteEffects heroFlip;
 
         private enum richting :int { naarLinks = -1, naarRechts = 1};
+
+        private Movement beweging;
         public Hero(Texture2D _texture, Vector2 _positie)
         {
             Texture = _texture;
             Positie = _positie;
-
+            beweging = new Movement(this.positie, new Vector2(5, 30));
+            heroFlip = beweging.Heroflip;
             #region frames stappen
             walk = new Animation();
             walk.AddFrame(new Rectangle(242, 20, 33, 51));
@@ -89,13 +90,15 @@ namespace StudentLife.Class
             #endregion
 
         }
+
         bool x = false;
+        
         bool hasJumped = false;
         float gravity = 9.81f;
         float velocity = 30f;
         int jumpHeight = 90;
         float beginPositie ;
-
+        
         public void Update(GameTime gametime)
         {
             Bediening.Update();
@@ -108,27 +111,41 @@ namespace StudentLife.Class
             
             if (Bediening.Left)
             {
-                Walking((int)richting.naarLinks);
+                //Walking((int)richting.naarLinks);
+                animation = walk;
+                this.positie = beweging.Walking((int)richting.naarLinks);
             }
             if (Bediening.Right)
             {
-                Walking((int)richting.naarRechts);
+                // Walking((int)richting.naarRechts);
+                animation = walk;
+                this.positie = beweging.Walking((int)richting.naarRechts);
             }
-            if(Bediening.Run && Bediening.Left)
+            if (Bediening.Run && Bediening.Left)
             {
-                Run((int)richting.naarLinks,4f);
+                //Run((int)richting.naarLinks,4f);
+                animation = run;
+                this.positie = beweging.Run((int)richting.naarLinks, 6f);
             }
             if (Bediening.Run && Bediening.Right)
             {
-                Run((int)richting.naarRechts, 4f);
+                //Run((int)richting.naarRechts, 4f);
+                animation = run;
+                this.positie = beweging.Run((int)richting.naarRechts, 6f);
             }
 
-            beginPositie = 350;
             if (Bediening.Jump||x)
             {
-                Jump();
+                animation = jump;
+                unsafe
+                {
+                   fixed( bool* y = &this.x)
+                   this.positie = beweging.Jump(y, jump, jump);
+                }
+                
+                //Jump();
             }
-            
+            heroFlip = beweging.Heroflip;
         }
         private void Walking( int richting)
         {
@@ -164,7 +181,12 @@ namespace StudentLife.Class
         private void Jump()  //idee: http://www.xnadevelopment.com/tutorials/thewizardjumping/thewizardjumping.shtml
         {
             animation = jump;
-            
+            jump.AantalBewegingenPerSeconde = 20;
+
+            if (!x)
+            {
+                beginPositie = positie.Y;
+            }
 
             //controleer of de jump actie al gedaan is sinds vorige jump
             if (!hasJumped) 
@@ -199,7 +221,8 @@ namespace StudentLife.Class
                            positie.Y = beginPositie;
                            this.x = false;
                            velocity = 30;
-                           hasJumped = false; 
+                           hasJumped = false;
+                    
                     }
                 
             }
@@ -212,7 +235,6 @@ namespace StudentLife.Class
         }
         public void Draw(SpriteBatch spritebatch)
         {
-            Console.WriteLine("Position X = " + Positie.X + " Position Y = " + Positie.Y);
             Rectangle destinationRectangle = new Rectangle((int)Positie.X, (int)Positie.Y, animation.CurrentFrame.SourceRectangle.Width, animation.CurrentFrame.SourceRectangle.Height);
 
             spritebatch.Draw(texture: Texture, destinationRectangle: destinationRectangle, sourceRectangle: animation.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: new Vector2(0, 0), effects: heroFlip, layerDepth: 0f);
