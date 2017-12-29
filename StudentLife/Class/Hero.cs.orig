@@ -20,7 +20,13 @@ namespace StudentLife.Class
         }
 
         private Texture2D Texture { get; set;}
+<<<<<<< HEAD
         private Animation walk,stand,run,jump,damaged,animation;
+=======
+        private Rectangle showRect;
+        private Animation animation,stappen,stand,run,jump,damaged;
+        public Vector2 VelocityX = new Vector2(2,0);
+>>>>>>> 5da7f96f0143b9caf6b9193d6a9f6ae12d814cac
         public Bediening Bediening { get; set; }
         private SpriteEffects heroFlip;
         private enum richting :int { naarLinks = -1, naarRechts = 1};
@@ -40,6 +46,7 @@ namespace StudentLife.Class
             walk.AddFrame(new Rectangle(413, 19, 21, 52));
             walk.AddFrame(new Rectangle(451, 18, 23, 53));
 
+<<<<<<< HEAD
             #endregion
 
             #region frames run
@@ -84,6 +91,39 @@ namespace StudentLife.Class
 
             jump.AantalBewegingenPerSeconde = 1;
             #endregion
+=======
+            #region frames stappen
+            stappen = new Animation();
+            stappen.AddFrame(new Rectangle(242, 20, 33, 51));
+            stappen.AddFrame(new Rectangle(287, 21, 25, 50));
+            stappen.AddFrame(new Rectangle(327, 20, 26, 51));
+            stappen.AddFrame(new Rectangle(368, 20, 25, 51));
+            stappen.AddFrame(new Rectangle(412, 19, 22, 52));
+            stappen.AddFrame(new Rectangle(450, 18, 43, 53));
+            #endregion
+
+            #region frames run
+            run = new Animation();
+           // run.AddFrame(new Rectangle )
+            #endregion
+
+            stappen.AantalBewegingenPerSeconde = 8;
+        }
+        
+        
+        private void Run(int richting)
+        {
+            if (richting<0)
+            {
+                Positie -= VelocityX;
+                heroFlip = SpriteEffects.FlipHorizontally;
+            }
+            if (richting>0)
+            {
+                Positie += VelocityX;
+                heroFlip = SpriteEffects.None;
+            }
+>>>>>>> 5da7f96f0143b9caf6b9193d6a9f6ae12d814cac
 
         }
         bool hasJumped = false;
@@ -94,7 +134,11 @@ namespace StudentLife.Class
             
             if (Bediening.isKeyNotDown)
             {
+<<<<<<< HEAD
                 animation = stand;
+=======
+                stappen.Update(gametime);
+>>>>>>> 5da7f96f0143b9caf6b9193d6a9f6ae12d814cac
             }
             
             if (Bediening.Left)
@@ -131,10 +175,17 @@ namespace StudentLife.Class
         }
         public void Draw(SpriteBatch spritebatch)
         {
+<<<<<<< HEAD
             Rectangle destinationRectangle = new Rectangle((int)Positie.X, (int)Positie.Y, animation.CurrentFrame.SourceRectangle.Width, animation.CurrentFrame.SourceRectangle.Height);
 
             spritebatch.Draw(texture: Texture, destinationRectangle: destinationRectangle, sourceRectangle: animation.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: new Vector2(0, 0), effects: heroFlip, layerDepth: 0f);
 
+
+=======
+            
+        Rectangle destinationRectangle = new Rectangle((int)Positie.X, (int)Positie.Y, stappen.CurrentFrame.SourceRectangle.Width, stappen.CurrentFrame.SourceRectangle.Height);
+        spritebatch.Draw(texture: Texture, destinationRectangle: destinationRectangle, sourceRectangle: stappen.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: new Vector2(0,0) , effects:heroFlip, layerDepth: 0f);
+>>>>>>> 5da7f96f0143b9caf6b9193d6a9f6ae12d814cac
         }
 
        

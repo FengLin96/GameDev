@@ -51,7 +51,7 @@
     <Compile Include="Class\Hero.cs" />
     <Compile Include="Class\IBeweging.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="Movement.cs" />
+    <Compile Include="Class\Movement.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
