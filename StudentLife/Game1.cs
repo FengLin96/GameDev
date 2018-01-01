@@ -15,6 +15,11 @@ namespace StudentLife
         SpriteBatch spriteBatch;
         Texture2D heroTexture;
         Hero hoofdpersonage;
+        Level level;
+        Texture2D blockTexture;
+
+        Texture2D backgroundImg;
+        Rectangle backgroundRec;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -32,6 +37,7 @@ namespace StudentLife
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            backgroundRec = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             
         }
 
@@ -49,6 +55,13 @@ namespace StudentLife
             heroTexture = Content.Load<Texture2D>("hoofdpersonage");
             hoofdpersonage = new Hero(heroTexture, new Vector2(100, 350));
             hoofdpersonage.Bediening = new Bediening();
+
+            level = new Level();
+            blockTexture = Content.Load<Texture2D>("castleHalf");
+            level.texture = blockTexture;
+            level.CreateWorld();
+
+            backgroundImg = Content.Load<Texture2D>("city");
             
         }
 
@@ -82,11 +95,13 @@ namespace StudentLife
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.AliceBlue);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+            spriteBatch.Draw(backgroundImg, backgroundRec, Color.White);
             hoofdpersonage.Draw(spriteBatch);
+            level.DrawWorld(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

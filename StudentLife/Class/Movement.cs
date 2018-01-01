@@ -123,8 +123,8 @@ namespace StudentLife
             
             
             return this.positie;
-        }
-    
+        } //idee: http://www.xnadevelopment.com/tutorials/thewizardjumping/thewizardjumping.shtml
+
 
     }
 
