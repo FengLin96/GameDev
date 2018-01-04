@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using StudentLife.Class;
 using System;
+using System.Collections.Generic;
 
 namespace StudentLife
 {
@@ -20,6 +21,8 @@ namespace StudentLife
 
         Texture2D backgroundImg;
         Rectangle backgroundRec;
+        
+        List<ICollide> collideObjecten;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -37,8 +40,13 @@ namespace StudentLife
             // TODO: Add your initialization logic here
 
             base.Initialize();
+          
+           
+
             backgroundRec = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+
             
+                        
         }
 
         /// <summary>
@@ -54,11 +62,22 @@ namespace StudentLife
 
             heroTexture = Content.Load<Texture2D>("hoofdpersonage");
             hoofdpersonage = new Hero(heroTexture, new Vector2(100, 350));
-            hoofdpersonage.Bediening = new Bediening();
 
             level = new Level();
             blockTexture = Content.Load<Texture2D>("castleHalf");
-            level.texture = blockTexture;
+            level.Texture = blockTexture;
+
+            collideObjecten = new List<ICollide>();
+            
+
+            //voeg alle blokken toe aan collideObjecten
+            for (int i = 0; i < level.BlockArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < level.BlockArray.GetLength(1); j++)
+                {
+                    collideObjecten.Add(level.BlockArray[i, j]);
+                }
+            }
             level.CreateWorld();
 
             backgroundImg = Content.Load<Texture2D>("city");
@@ -86,7 +105,28 @@ namespace StudentLife
 
             // TODO: Add your update logic here
             hoofdpersonage.Update(gameTime);
+
+            for (int i = 0; i < collideObjecten.Count; i++)
+            {
+                bool result = false;
+                Rectangle recA = hoofdpersonage.GetCollisionRectangle();
+                Color[] dataA = hoofdpersonage.GetTextureColorData();
+
+                Color[] dataB = collideObjecten[i].GetTextureColorData();
+                Rectangle recB = collideObjecten[i].GetCollisionRectangle();
+                
+                
+                result = PixelCollision(recA,dataA,recB,dataB);
+                if (result)
+                {
+                    Console.WriteLine("Collide");
+                }
+            }
+
             base.Update(gameTime);
+
+
+
         }
         
         /// <summary>
@@ -104,6 +144,30 @@ namespace StudentLife
             level.DrawWorld(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        public bool PixelCollision(Rectangle collisionRecA, Color[] dataA, Rectangle collisionRecB, Color[] dataB) 
+        {
+            int top = Math.Max(collisionRecA.Top, collisionRecB.Top);
+            int bottom = Math.Min(collisionRecA.Bottom, collisionRecB.Bottom);
+            int left = Math.Max(collisionRecA.Left, collisionRecB.Left);
+            int right = Math.Min(collisionRecA.Right, collisionRecB.Right);
+
+            for (int i = top; i < bottom; i++)  //stel top = 0 bottom = 10 //0,1,2
+            {
+                for (int j = left; j < right; j++) // stel left = 0 right = 5 /0,1,2,3,4,5,0
+                {                                               //width = 5
+                    Color colorA = dataA[(i - collisionRecA.Top) + (j - collisionRecA.Left) * collisionRecA.Width]; //0,1,2,3,4,5,5,6,7,8,9,10,10,....... // 0 - width*height
+                    Color colorB = dataB[(i - collisionRecB.Top) + (j - collisionRecB.Left) * collisionRecB.Width];
+
+                    if (colorA.A != 0 && colorB.A != 0)
+                    {
+                        return true;
+                    }
+                }
+
+            }
+            return false;
         }
     }
 }

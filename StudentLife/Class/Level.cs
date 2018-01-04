@@ -10,9 +10,17 @@ namespace StudentLife.Class
 {
     class Level
     {
-        public Texture2D texture;
+        private Texture2D texture;
+        
+        public Texture2D Texture
+        {
+            get { return this.texture; }
+            set { this.texture = value; }
+        }
+
         private int rij = 13;
         private int kolom = 18;
+
         public byte[,] tileArray = new Byte[,]
         {
             {0,0,0,0,0,1,0,1,0,0,1,0,1},
@@ -36,6 +44,13 @@ namespace StudentLife.Class
 
         };
         private Block[,] blockArray;
+
+        public Block[,] BlockArray
+        {
+            get { return blockArray; }
+         
+        }
+
         public Level()
         {
             blockArray = new Block[kolom, rij];

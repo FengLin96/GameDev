@@ -49,8 +49,10 @@
     <Compile Include="Class\AnimationFrame.cs" />
     <Compile Include="Class\Bediening.cs" />
     <Compile Include="Class\Block.cs" />
+    <Compile Include="Class\GameObj.cs" />
     <Compile Include="Class\Hero.cs" />
     <Compile Include="Class\IBeweging.cs" />
+    <Compile Include="Class\ICollide.cs" />
     <Compile Include="Class\Level.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Class\Movement.cs" />

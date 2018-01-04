@@ -9,7 +9,7 @@ using StudentLife.Class;
 
 namespace StudentLife.Class
 {
-    class Hero
+    class Hero:ICollide
     { 
         private Vector2 positie;
 
@@ -20,15 +20,29 @@ namespace StudentLife.Class
         }
 
         private Texture2D Texture { get; set;}
-        private Animation walk,stand,run,jump,damaged,animation;
-        public Bediening Bediening { get; set; }
+        private Animation walk,stand,run,jump,animation;
+
+        private Bediening bediening;
+        public Bediening Bediening
+        {
+            get { return bediening; }
+            set { bediening = value; }
+        }
+
+        //public Bediening Bediening { get; set; }
         private SpriteEffects heroFlip;
         private enum richting :int { naarLinks = -1, naarRechts = 1};
         private Movement beweging;
+
+        //Collosion variabelen
+        private Rectangle collisionRectangle;
+        private Color[] textureColorData;
+
         public Hero(Texture2D _texture, Vector2 _positie)
         {
             Texture = _texture;
             Positie = _positie;
+            bediening = new Bediening();
             beweging = new Movement(this.positie, new Vector2(5, 30));
             heroFlip = beweging.Heroflip;
             #region frames stappen
@@ -85,7 +99,13 @@ namespace StudentLife.Class
             jump.AantalBewegingenPerSeconde = 1;
             #endregion
 
+            collisionRectangle = new Rectangle((int)positie.X, (int)positie.Y, animation.CurrentFrame.SourceRectangle.Width,animation.CurrentFrame.SourceRectangle.Height);
+            textureColorData = new Color[this.Texture.Height * this.Texture.Width];
+            Texture.GetData<Color>(textureColorData);
+
+
         }
+
         bool hasJumped = false;
         public void Update(GameTime gametime)
         {
@@ -128,16 +148,25 @@ namespace StudentLife.Class
                 }
             }
             heroFlip = beweging.Heroflip;
+
+            collisionRectangle.X = (int)positie.X;
+            collisionRectangle.Y = (int)positie.Y;
         }
         public void Draw(SpriteBatch spritebatch)
         {
             Rectangle destinationRectangle = new Rectangle((int)Positie.X, (int)Positie.Y, animation.CurrentFrame.SourceRectangle.Width, animation.CurrentFrame.SourceRectangle.Height);
 
             spritebatch.Draw(texture: Texture, destinationRectangle: destinationRectangle, sourceRectangle: animation.CurrentFrame.SourceRectangle, color: Color.AliceBlue, rotation: 0f, origin: new Vector2(0, 0), effects: heroFlip, layerDepth: 0f);
-
-
         }
 
-       
+        public Rectangle GetCollisionRectangle()
+        {
+            return collisionRectangle;
+        }
+
+        public Color[] GetTextureColorData()
+        {
+            return textureColorData;
+        }
     }
 }
