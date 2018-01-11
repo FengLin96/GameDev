@@ -69,16 +69,23 @@ namespace StudentLife
 
             collideObjecten = new List<ICollide>();
             
+           
 
+            level.CreateWorld();
+           
             //voeg alle blokken toe aan collideObjecten
-            for (int i = 0; i < level.BlockArray.GetLength(0); i++)
+            for (int index1 = 0; index1 < level.BlockArray.GetLength(0); index1++)
             {
-                for (int j = 0; j < level.BlockArray.GetLength(1); j++)
+                for (int index2 = 0; index2 < level.BlockArray.GetLength(1); index2++)
                 {
-                    collideObjecten.Add(level.BlockArray[i, j]);
+                   
+                    if (level.BlockArray[index1, index2] != null)
+                    {
+                        collideObjecten.Add(level.BlockArray[index1, index2]);
+                    }
+    
                 }
             }
-            level.CreateWorld();
 
             backgroundImg = Content.Load<Texture2D>("city");
             
@@ -114,9 +121,8 @@ namespace StudentLife
 
                 Color[] dataB = collideObjecten[i].GetTextureColorData();
                 Rectangle recB = collideObjecten[i].GetCollisionRectangle();
-                
-                
-                result = PixelCollision(recA,dataA,recB,dataB);
+
+                result = PixelCollision(recA, dataA, recB, dataB);
                 if (result)
                 {
                     Console.WriteLine("Collide");
@@ -152,18 +158,29 @@ namespace StudentLife
             int bottom = Math.Min(collisionRecA.Bottom, collisionRecB.Bottom);
             int left = Math.Max(collisionRecA.Left, collisionRecB.Left);
             int right = Math.Min(collisionRecA.Right, collisionRecB.Right);
-
+           
             for (int i = top; i < bottom; i++)  //stel top = 0 bottom = 10 //0,1,2
             {
                 for (int j = left; j < right; j++) // stel left = 0 right = 5 /0,1,2,3,4,5,0
                 {                                               //width = 5
-                    Color colorA = dataA[(i - collisionRecA.Top) + (j - collisionRecA.Left) * collisionRecA.Width]; //0,1,2,3,4,5,5,6,7,8,9,10,10,....... // 0 - width*height
-                    Color colorB = dataB[(i - collisionRecB.Top) + (j - collisionRecB.Left) * collisionRecB.Width];
+                    int y = (i - collisionRecA.Top) * collisionRecA.Width + (j - collisionRecA.Left);
+                   Color colorA = dataA[y]; //0,1,2,3,4,5,5,6,7,8,9,10,10,....... // 0 - width*height
+                   int x = (i - collisionRecB.Top) * collisionRecB.Width + (j - collisionRecB.Left);
+                    Color colorB = dataB[x];
+
+                    //Console.WriteLine("top = " + top);
+                    //Console.WriteLine("bottom = " + bottom);
+                    //Console.WriteLine("left = " + left);
+                    //Console.WriteLine("right = " + right);
+                    //Console.WriteLine("A.a = " + colorA.A);
+                    //Console.WriteLine("B.a = " + colorB.A);
 
                     if (colorA.A != 0 && colorB.A != 0)
                     {
+                        Console.WriteLine("Collide");
                         return true;
                     }
+
                 }
 
             }

@@ -37,6 +37,7 @@ namespace StudentLife.Class
         //Collosion variabelen
         private Rectangle collisionRectangle;
         private Color[] textureColorData;
+        private Texture pieceTexture;
 
         public Hero(Texture2D _texture, Vector2 _positie)
         {
@@ -100,8 +101,7 @@ namespace StudentLife.Class
             #endregion
 
             collisionRectangle = new Rectangle((int)positie.X, (int)positie.Y, animation.CurrentFrame.SourceRectangle.Width,animation.CurrentFrame.SourceRectangle.Height);
-            textureColorData = new Color[this.Texture.Height * this.Texture.Width];
-            Texture.GetData<Color>(textureColorData);
+            
 
 
         }
@@ -166,6 +166,11 @@ namespace StudentLife.Class
 
         public Color[] GetTextureColorData()
         {
+            int size = animation.CurrentFrame.SourceRectangle.Width * animation.CurrentFrame.SourceRectangle.Height;
+            textureColorData = new Color[size];
+
+            this.Texture.GetData<Color>(0,animation.CurrentFrame.SourceRectangle,textureColorData,0,size);
+            
             return textureColorData;
         }
     }

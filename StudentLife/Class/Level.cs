@@ -18,8 +18,8 @@ namespace StudentLife.Class
             set { this.texture = value; }
         }
 
-        private int rij = 13;
-        private int kolom = 18;
+        private int kolom = 13;
+        private int rij = 18;
 
         public byte[,] tileArray = new Byte[,]
         {
@@ -53,14 +53,14 @@ namespace StudentLife.Class
 
         public Level()
         {
-            blockArray = new Block[kolom, rij];
+            blockArray = new Block[rij, kolom];
         }
         
         public void CreateWorld()
         {
-            for (int i = 0; i < kolom; i++)
+            for (int i = 0; i < rij; i++)
             {
-                for (int j = 0; j < rij; j++)
+                for (int j = 0; j < kolom; j++)
                 {
                     if(tileArray[i,j] == 1)
                     {
@@ -72,9 +72,9 @@ namespace StudentLife.Class
 
         public void DrawWorld(SpriteBatch spritebatch)
         {
-            for (int i = 0; i < kolom; i++)
+            for (int i = 0; i < rij; i++)
             {
-                for (int j = 0; j < rij; j++)
+                for (int j = 0; j < kolom; j++)
                 {
                     if (blockArray[i, j] != null)
                     {
